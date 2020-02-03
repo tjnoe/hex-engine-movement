@@ -8,7 +8,6 @@ import {
   useDraw,
   useUpdate
 } from "@hex-engine/2d";
-import Draggable from "./Draggable";
 
 export default function Box(position: Vector) {
   useType(Box);
