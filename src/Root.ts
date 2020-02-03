@@ -6,7 +6,6 @@ import {
   Physics,
   Vector
 } from "@hex-engine/2d";
-import Floor from "./Floor";
 import Box from "./Box";
 
 export default function Root() {
@@ -26,6 +25,5 @@ export default function Root() {
     canvas.element.height / 2
   );
 
-  //useChild(() => Floor(canvasCenter.addY(100)));
   useChild(() => Box(canvasCenter));
 }
