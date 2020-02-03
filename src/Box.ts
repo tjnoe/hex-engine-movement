@@ -51,7 +51,8 @@ export default function Box(position: Vector) {
 
     const force = movementVector.clone();
     if (force.magnitude > movementSpeed) {
-      force.magnitude = 0.1 * movementSpeed * delta;
+      //force.magnitude = 0.1 * movementSpeed * delta;
+      //console.log(force.magnitude);
       physics.setVelocity(force);
     } else {
       physics.setVelocity(zeroPoint);
