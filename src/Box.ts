@@ -1,6 +1,7 @@
 import {
   useType,
   useNewComponent,
+  useWindowSize,
   Geometry,
   Polygon,
   Vector,
@@ -19,11 +20,21 @@ export default function Box(position: Vector) {
     })
   );
 
-  const movementSpeed = 1;
+  const movementSpeed = 3;
   const movementVector = new Vector(0, 0);
   const zeroPoint = new Vector(0, 0);
-  const xBoundary = position.x * 2 - 12.5;
-  const yBoundary = position.y * 2 - 12.5;
+  const { windowSize, onWindowResize } = useWindowSize();
+  let xBoundary;
+  let yBoundary;
+
+  function resize() {
+    xBoundary = windowSize.x;
+    yBoundary = windowSize.y;
+  }
+
+  onWindowResize(resize);
+  resize();
+
   let xDirection = 1;
   let yDirection = 1;
 
@@ -51,7 +62,7 @@ export default function Box(position: Vector) {
 
     const force = movementVector.clone();
     if (force.magnitude > movementSpeed) {
-      //force.magnitude = 0.1 * movementSpeed * delta;
+      force.magnitude = 0.1 * movementSpeed * delta;
       //console.log(force.magnitude);
       physics.setVelocity(force);
     } else {

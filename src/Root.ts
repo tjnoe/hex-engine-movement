@@ -12,7 +12,7 @@ export default function Root() {
   useType(Root);
 
   const canvas = useNewComponent(() => Canvas({ backgroundColor: "white" }));
-  canvas.fullscreen({ pixelZoom: 3 });
+  canvas.fullscreen({ pixelZoom: 1 });
 
   useNewComponent(() =>
     Physics.Engine({
