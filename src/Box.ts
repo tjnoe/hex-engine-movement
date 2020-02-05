@@ -1,7 +1,7 @@
 import {
   useType,
   useNewComponent,
-  useWindowSize,
+  useCanvasSize,
   Geometry,
   Polygon,
   Vector,
@@ -23,20 +23,14 @@ export default function Box(position: Vector) {
   const movementSpeed = 3;
   const movementVector = new Vector(0, 0);
   const zeroPoint = new Vector(0, 0);
-  const { windowSize, onWindowResize } = useWindowSize();
-  let xBoundary;
-  let yBoundary;
+  const { canvasSize } = useCanvasSize();
+  let xBoundary = canvasSize.x;
+  let yBoundary = canvasSize.y;
 
-  function resize() {
-    xBoundary = windowSize.x;
-    yBoundary = windowSize.y;
-  }
-
-  onWindowResize(resize);
-  resize();
-
-  let xDirection = 1;
-  let yDirection = 1;
+  let xDirection = Math.random() >= 0.5 ? 1 : -1;
+  let yDirection = Math.random() >= 0.5 ? 1 : -1;
+  let startingX = Math.random();
+  let startingY = Math.random();
 
   const physics = useNewComponent(() => Physics.Body(geometry));
 
@@ -53,8 +47,8 @@ export default function Box(position: Vector) {
     ) {
       yDirection *= -1;
     }
-    const xDistance = movementSpeed * xDirection;
-    const yDistance = movementSpeed * yDirection;
+    const xDistance = startingX * movementSpeed * xDirection;
+    const yDistance = startingY * movementSpeed * yDirection;
     const x = xDistance;
     const y = yDistance;
 
@@ -63,7 +57,6 @@ export default function Box(position: Vector) {
     const force = movementVector.clone();
     if (force.magnitude > movementSpeed) {
       force.magnitude = 0.1 * movementSpeed * delta;
-      //console.log(force.magnitude);
       physics.setVelocity(force);
     } else {
       physics.setVelocity(zeroPoint);

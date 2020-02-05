@@ -2,6 +2,7 @@ import {
   useType,
   useNewComponent,
   useChild,
+  useWindowSize,
   Canvas,
   Physics,
   Vector
@@ -12,7 +13,30 @@ export default function Root() {
   useType(Root);
 
   const canvas = useNewComponent(() => Canvas({ backgroundColor: "white" }));
-  canvas.fullscreen({ pixelZoom: 1 });
+
+  const { windowSize, onWindowResize } = useWindowSize();
+
+  function resize() {
+    let realWidth = 10;
+    let realHeight = 10;
+    if (windowSize.x >= windowSize.y) {
+      realWidth = windowSize.y;
+      realHeight = windowSize.y;
+    } else {
+      realWidth = windowSize.x;
+      realHeight = windowSize.x;
+    }
+
+    canvas.resize({
+      realWidth,
+      realHeight,
+      pixelWidth: 640,
+      pixelHeight: 640
+    });
+  }
+
+  onWindowResize(resize);
+  resize();
 
   useNewComponent(() =>
     Physics.Engine({
