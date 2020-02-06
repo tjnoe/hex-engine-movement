@@ -20,6 +20,9 @@ export default function Box(position: Vector) {
     })
   );
 
+  const fillStyles = ["red", "blue", "green"];
+  let currFillStyle = 0;
+
   const movementSpeed = 3;
   const movementVector = new Vector(0, 0);
   const zeroPoint = new Vector(0, 0);
@@ -40,12 +43,14 @@ export default function Box(position: Vector) {
       geometry.position.x + movementSpeed <= 12.5
     ) {
       xDirection *= -1;
+      currFillStyle = (currFillStyle + 1) % 3;
     }
     if (
       geometry.position.y + movementSpeed >= yBoundary ||
       geometry.position.y + movementSpeed <= 12.5
     ) {
       yDirection *= -1;
+      currFillStyle = (currFillStyle + 1) % 3;
     }
     const xDistance = startingX * movementSpeed * xDirection;
     const yDistance = startingY * movementSpeed * yDirection;
@@ -67,7 +72,7 @@ export default function Box(position: Vector) {
   });
 
   useDraw(context => {
-    context.fillStyle = "red";
+    context.fillStyle = fillStyles[currFillStyle];
     geometry.shape.draw(context, "fill");
   });
 }
